@@ -10,13 +10,14 @@ datasource db {
 model SearchResult {
   search_result_id        Int      @id @default(autoincrement())
   linkedin_profile_url    String?
-  profile                 Person?  @relation(fields: [profile_id], references: [profile_id])
+  profile                 Profile?  @relation(fields: [profile_id], references: [profile_id])
   last_updated            DateTime?
   profile_id              Int      @unique
 }
 
-model Person {
+model Profile {
   profile_id                 Int      @id @default(autoincrement())
+  personGroup                PersonGroup?
   public_identifier          String
   profile_pic_url            String?
   background_cover_image_url String?
@@ -47,9 +48,9 @@ model Person {
   people_also_viewed            PeopleAlsoViewed[]
   recommendations             String[]
   activities                  Activity[]
-  similarly_named_profiles      SimilarProfile[]
+  similarly_named_profiles      SimilarlyNamedProfile[]
   articles                    Article[]
-  groups                      PersonGroup[]
+  groups                      String[] 
   searchResult               SearchResult?
 }
 
@@ -64,7 +65,7 @@ model Experience {
   location                    String?
   logo_url                     String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile  @relation(fields: [profile_id], references: [profile_id])
 }
 
 model Education {
@@ -80,7 +81,7 @@ model Education {
   grade                       String?
   activities_and_societies    String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile  @relation(fields: [profile_id], references: [profile_id])
 }
 
 model AccomplishmentOrg {
@@ -91,7 +92,7 @@ model AccomplishmentOrg {
   title                       String?
   description                 String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile  @relation(fields: [profile_id], references: [profile_id])
 }
 
 model Publication {
@@ -102,7 +103,7 @@ model Publication {
   description                 String?
   url                         String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile  @relation(fields: [profile_id], references: [profile_id])
 }
 
 model HonourAward {
@@ -112,7 +113,7 @@ model HonourAward {
   issued_on                    DateTime?
   description                 String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
 model Patent {
@@ -125,7 +126,7 @@ model Patent {
   patent_number                String?
   url                         String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
 model Course {
@@ -133,7 +134,7 @@ model Course {
   name                        String?
   number                      String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
 model Project {
@@ -144,7 +145,7 @@ model Project {
   description                 String?
   url                         String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
 model TestScore {
@@ -154,7 +155,7 @@ model TestScore {
   date_on                      DateTime?
   description                 String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
 model VolunteeringExperience {
@@ -168,7 +169,7 @@ model VolunteeringExperience {
   description                 String?
   logo_url                     String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
 model Certification {
@@ -181,7 +182,7 @@ model Certification {
   license_number               String?
   url                         String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
 model PeopleAlsoViewed {
@@ -191,7 +192,7 @@ model PeopleAlsoViewed {
   summary                     String?
   location                    String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
 model Activity {
@@ -200,17 +201,17 @@ model Activity {
   link                        String?
   activity_status              String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
-model SimilarProfile {
+model SimilarlyNamedProfile {
   similar_profile_id          Int      @id @default(autoincrement())
   name                        String?
   link                        String?
   summary                     String?
   location                    String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
 model Article {
@@ -221,7 +222,7 @@ model Article {
   author                      String?
   image_url                   String?
   profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
 }
 
 model PersonGroup {
@@ -229,6 +230,6 @@ model PersonGroup {
   profile_pic_url             String?
   name                        String?
   url                         String?
-  profile_id                  Int
-  profile                     Person   @relation(fields: [profile_id], references: [profile_id])
+  profile_id    Int      @unique
+  profile       Profile   @relation(fields: [profile_id], references: [profile_id])
 }
