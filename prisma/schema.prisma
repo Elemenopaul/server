@@ -7,229 +7,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model SearchResult {
-  search_result_id        Int      @id @default(autoincrement())
-  linkedin_profile_url    String?
-  profile                 Profile?  @relation(fields: [profile_id], references: [profile_id])
-  last_updated            DateTime?
-  profile_id              Int      @unique
-}
-
 model Profile {
-  profile_id                 Int      @id @default(autoincrement())
-  personGroup                PersonGroup?
-  public_identifier          String
-  profile_pic_url            String?
-  background_cover_image_url String?
-  first_name                 String?
-  last_name                  String?
-  full_name                  String?
-  follower_count             Int?
-  occupation                 String?
-  headline                   String?
-  summary                    String?
-  country                    String?
-  country_full_name          String?
-  city                       String?
-  state                      String?
-  experiences                Experience[]
-  education                  Education[]
-  languages                  String[]
-  accomplishment_organisations AccomplishmentOrg[]
-  accomplishment_publications  Publication[]
-  accomplishment_honors_awards  HonourAward[]
-  accomplishment_patents       Patent[]
-  accomplishment_courses       Course[]
-  accomplishment_projects      Project[]
-  accomplishment_test_scores    TestScore[]
-  volunteer_work               VolunteeringExperience[]
-  certifications              Certification[]
-  connections                 Int?
-  people_also_viewed            PeopleAlsoViewed[]
-  recommendations             String[]
-  activities                  Activity[]
-  similarly_named_profiles      SimilarlyNamedProfile[]
-  articles                    Article[]
-  groups                      String[] 
-  searchResult               SearchResult?
+  id                      Int          @id @default(autoincrement())
+  public_identifier       String       @unique
+  name                    String
+  city                    String
+  state                   String
+  country                 String
+  summary                 String
+  experiences             Experience[]
+  educations              Education[]
 }
 
 model Experience {
-  experience_id                Int      @id @default(autoincrement())
-  starts_at                    DateTime?
-  ends_at                      DateTime?
-  company                     String?
-  company_linkedin_profile_url String?
-  title                       String?
+  id                          Int      @id @default(autoincrement())
+  ProfileId                   Int
+  title                       String
+  company                     String
   description                 String?
   location                    String?
-  logo_url                     String?
-  profile_id                  Int
-  profile                     Profile  @relation(fields: [profile_id], references: [profile_id])
+  starts_at                   DateTime
+  ends_at                     DateTime?
+  company_linkedin_profile_url String?
+  logo_url                    String?
+  Profile                     Profile  @relation(fields: [ProfileId], references: [id])
 }
 
 model Education {
-  education_id                Int      @id @default(autoincrement())
-  starts_at                    DateTime?
-  ends_at                      DateTime?
+  id                          Int      @id @default(autoincrement())
+  ProfileId                   Int
+  school                      String
+  degree_name                 String
   field_of_study              String?
-  degree_name                  String?
-  school                      String?
-  school_linkedin_profile_url String?
+  starts_at                   DateTime
+  ends_at                     DateTime?
   description                 String?
-  logo_url                     String?
-  grade                       String?
   activities_and_societies    String?
-  profile_id                  Int
-  profile                     Profile  @relation(fields: [profile_id], references: [profile_id])
-}
-
-model AccomplishmentOrg {
-  accomplishment_org_id       Int      @id @default(autoincrement())
-  starts_at                    DateTime?
-  ends_at                      DateTime?
-  org_name                     String?
-  title                       String?
-  description                 String?
-  profile_id                  Int
-  profile                     Profile  @relation(fields: [profile_id], references: [profile_id])
-}
-
-model Publication {
-  publication_id              Int      @id @default(autoincrement())
-  name                        String?
-  publisher                   String?
-  published_on                 DateTime?
-  description                 String?
-  url                         String?
-  profile_id                  Int
-  profile                     Profile  @relation(fields: [profile_id], references: [profile_id])
-}
-
-model HonourAward {
-  honour_award_id             Int      @id @default(autoincrement())
-  title                       String?
-  issuer                      String?
-  issued_on                    DateTime?
-  description                 String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model Patent {
-  patent_id                   Int      @id @default(autoincrement())
-  title                       String?
-  issuer                      String?
-  issued_on                    DateTime?
-  description                 String?
-  application_number           String?
-  patent_number                String?
-  url                         String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model Course {
-  course_id                   Int      @id @default(autoincrement())
-  name                        String?
-  number                      String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model Project {
-  project_id                  Int      @id @default(autoincrement())
-  starts_at                    DateTime?
-  ends_at                      DateTime?
-  title                       String?
-  description                 String?
-  url                         String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model TestScore {
-  test_score_id               Int      @id @default(autoincrement())
-  name                        String?
-  score                       String?
-  date_on                      DateTime?
-  description                 String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model VolunteeringExperience {
-  volunteering_experience_id  Int      @id @default(autoincrement())
-  starts_at                    DateTime?
-  ends_at                      DateTime?
-  title                       String?
-  cause                       String?
-  company                     String?
-  company_linkedin_profile_url String?
-  description                 String?
-  logo_url                     String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model Certification {
-  certification_id            Int      @id @default(autoincrement())
-  authority                   String?
-  display_source               String?
-  starts_at                    DateTime?
-  ends_at                      DateTime?
-  name                        String?
-  license_number               String?
-  url                         String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model PeopleAlsoViewed {
-  people_also_viewed_id       Int      @id @default(autoincrement())
-  link                        String?
-  name                        String?
-  summary                     String?
-  location                    String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model Activity {
-  activity_id                 Int      @id @default(autoincrement())
-  title                       String?
-  link                        String?
-  activity_status              String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model SimilarlyNamedProfile {
-  similar_profile_id          Int      @id @default(autoincrement())
-  name                        String?
-  link                        String?
-  summary                     String?
-  location                    String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model Article {
-  article_id                  Int      @id @default(autoincrement())
-  title                       String?
-  link                        String?
-  published_date               DateTime?
-  author                      String?
-  image_url                   String?
-  profile_id                  Int
-  profile                     Profile   @relation(fields: [profile_id], references: [profile_id])
-}
-
-model PersonGroup {
-  person_group_id             Int      @id @default(autoincrement())
-  profile_pic_url             String?
-  name                        String?
-  url                         String?
-  profile_id    Int      @unique
-  profile       Profile   @relation(fields: [profile_id], references: [profile_id])
+  grade                       String?
+  logo_url                    String?
+  school_linkedin_profile_url String?
+  Profile                     Profile  @relation(fields: [ProfileId], references: [id])
 }

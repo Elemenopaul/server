@@ -1,11 +1,7 @@
-import { Controller, Get, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
-import { searchPeople as searchPeopleFunction } from './searchPeople';
+import { Controller } from '@nestjs/common';
 
 @Controller('api')
 export class ApiController {
-  @Get('searchPeople')
-  searchPeople(@Req() req: Request, @Res() res: Response) {
-    return searchPeopleFunction(req, res);
-  }
+  // Removed the 'searchPeople' route handler because the 'searchPeople' function doesn't exist anymore
+  // Also removed the unused imports
 }
